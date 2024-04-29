@@ -192,7 +192,8 @@ public interface IGenericRepository<T> where T : class
   /// <param name="predicate">A lambda expression that defines the condition for filtering entities before counting. (Optional)</param>
   /// <returns>The number of entities within each group.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided groupExpression is null.</exception>
-  public int CountBy<TProperty>(Expression<Func<T, TProperty>> groupExpression, Expression<Func<T, bool>> predicate = null);
+  public int CountBy<TProperty>(Expression<Func<T, TProperty>> groupExpression, 
+                                           Expression<Func<T, bool>>? predicate = null);
 
   /// <summary>
   /// Synchronously saves all changes made to entities tracked by the context to the underlying database. 

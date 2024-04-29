@@ -4,7 +4,34 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <Title>The Future of .NET Data Access is Here!</Title>
+    <Authors>Buzurgmexr Sultonaliyev</Authors>
+    <Description>Say goodbye to repetitive CRUD boilerplate and hello to a streamlined, asynchronous-first approach to data access in your .NET applications! Buzruk.GenericRepository is your supercharged generic repository, offering a unified interface to work with various entities. Focus on building amazing features while this package handles the data interaction heavy lifting.</Description>
+    <PackageProjectUrl>https://github.com/buzurgmexrubon/Buzruk.GenericRepository/wiki</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/buzurgmexrubon/Buzruk.GenericRepository</RepositoryUrl>
+    <PackageTags>Entity; Framework; Core; Generic; Repository; CRUD; Asynchronous; Synchronous;</PackageTags>
+    <PackageReleaseNotes>Embrace the Future of Data Access (v1.0.0 - Initial Release)</PackageReleaseNotes>
+    <PackageId>Buzruk.GenericRepository</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
