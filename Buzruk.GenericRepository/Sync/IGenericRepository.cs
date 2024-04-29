@@ -10,48 +10,92 @@ public interface IGenericRepository<T> where T : class
   #region CRUD (Get, GetPaged, Add, AddRange, Update, UpdateRange, Remove, RemoveRange)
 
   /// <summary>
-  /// Retrieves a filtered and optionally sorted collection of entities of type T.
-  /// Supports eager loading of related entities through include and thenInclude delegates.
+  /// Synchronously retrieves a filtered, optionally sorted, and eagerly loaded collection of entities of type T.
   /// </summary>
   /// <typeparam name="T">The type of entity being retrieved.</typeparam>
-  /// <param name="predicates">An optional array of lambda expressions used for filtering. 
-  /// The query will be filtered by applying all provided predicates with logical AND. (default: null)</param>
-  /// <param name="orderBy">An optional lambda expression that specifies the sorting criteria for the results. (default: null)</param>
-  /// <param name="include">An optional delegate function that specifies related entities to be included in the results. 
-  /// This allows for eager loading of child entities in a single database call. (default: null)</param>
-  /// <param name="thenInclude">An optional delegate function for nested eager loading of related entities within the already included entities. (default: null)</param>
+  /// <param name="predicates">
+  /// An optional collection of `Expression<Func<T, bool>>` delegates used to filter the retrieved data.
+  /// Each predicate represents a filtering condition. Only items that match all specified predicates will be included in the results.
+  /// The query will be filtered by applying all provided predicates with logical AND. (default: null)
+  /// </param>
+  /// <param name="orderBy">
+  /// An optional expression specifying the property or field to sort the retrieved data by.
+  /// You can use ascending or descending order using syntax like `x => x.PropertyName ASC` or `x => x.PropertyName DESC`.
+  /// If not specified, no sorting is applied. (default: null)
+  /// </param>
+  /// <param name="thenBy">
+  /// An optional expression specifying a secondary property or field for chained sorting 
+  /// in ascending order after the primary sort defined by `orderBy`. (default: null)
+  /// </param>
+  /// <param name="includes">
+  /// An optional collection of delegate expressions specifying the navigation properties to eager load for the main entity type.
+  /// Each delegate expression takes an IQueryable and returns a new IQueryable with the related data included.
+  /// Use methods like `q => q.Include(x => x.PropertyName)` to construct the expressions. (default: null)
+  /// </param>
+  /// <param name="thenInclude">
+  /// An optional delegate expression specifying a navigation property to eager load *after* including the properties 
+  /// specified in `includes`. This allows for chained eager loading of nested related entities. (default: null)
+  /// </param>  
   /// <param name="tracking">A flag indicating whether to track changes for the retrieved entities. Defaults to false.</param>
   /// <returns>An `IEnumerable<T>` containing the filtered and optionally sorted entities.</returns>
   public IEnumerable<T> Get(
-    Expression<Func<T, bool>>[]? predicates = null,
-    Expression<Func<T, object>>? orderBy = null,
-    Func<IQueryable<T>, IQueryable<T>>? include = null,
-    Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
+      Expression<Func<T, bool>>[]? predicates = null,
+      Expression<Func<T, object>>? orderBy = null,
+      Expression<Func<T, object>>? thenBy = null,
+      Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+      Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
     bool tracking = false);
 
   /// <summary>
-  /// Retrieves a filtered and optionally sorted collection of entities of type T in a paged format.
+  /// Synchronously retrieves a filtered, optionally sorted, and eagerly loaded collection of entities of type T in a paged format.
   /// Supports eager loading of related entities through include and thenInclude delegates.
   /// </summary>
   /// <typeparam name="T">The type of entity being retrieved.</typeparam>
-  /// <param name="predicates">An optional array of lambda expressions used for filtering. 
-  /// The query will be filtered by applying all provided predicates with logical AND. (default: null)</param>
-  /// <param name="orderBy">An optional lambda expression that specifies the sorting criteria for the results. (default: null)</param>
-  /// <param name="include">An optional delegate function that specifies related entities to be included in the results. 
-  /// This allows for eager loading of child entities in a single database call. (default: null)</param>
-  /// <param name="thenInclude">An optional delegate function for nested eager loading of related entities within the already included entities. (default: null)</param>
-  /// <param name="pageNumber">The desired page number (1-based). Defaults to 1.</param>
-  /// <param name="pageSize">The number of items to retrieve per page. Defaults to 10.</param>
+  /// <param name="predicates">
+  /// An optional collection of `Expression<Func<T, bool>>` delegates used to filter the retrieved data.
+  /// Each predicate represents a filtering condition. Only items that match all specified predicates will be included in the results.
+  /// The query will be filtered by applying all provided predicates with logical AND. (default: null)
+  /// </param>
+  /// <param name="orderBy">
+  /// An optional expression specifying the property or field to sort the retrieved data by.
+  /// You can use ascending or descending order using syntax like `x => x.PropertyName ASC` or `x => x.PropertyName DESC`.
+  /// If not specified, no sorting is applied. (default: null)
+  /// </param>
+  /// <param name="thenBy">
+  /// An optional expression specifying a secondary property or field for chained sorting 
+  /// in ascending order after the primary sort defined by `orderBy`. (default: null)
+  /// </param>
+  /// <param name="includes">
+  /// An optional collection of delegate expressions specifying the navigation properties to eager load for the main entity type.
+  /// Each delegate expression takes an IQueryable and returns a new IQueryable with the related data included.
+  /// Use methods like `q => q.Include(x => x.PropertyName)` to construct the expressions. (default: null)
+  /// </param>
+  /// <param name="thenInclude">
+  /// An optional delegate expression specifying a navigation property to eager load *after* including the properties 
+  /// specified in `includes`. This allows for chained eager loading of nested related entities. (default: null)
+  /// </param> 
+  /// <param name="pageNumber">
+  /// The zero-based page number of the data to retrieve. This specifies which page of results 
+  /// you want to retrieve. Page numbering starts at 1, where 1 represents the first page. (default: 1)
+  /// </param>
+  /// <param name="pageSize">
+  /// The number of items to retrieve per page. 
+  /// If not specified, defaults to the maximum value for an integer (`int.MaxValue`), 
+  /// effectively retrieving all data in a single page. 
+  /// Consider using a reasonable page size to optimize performance 
+  /// and avoid large data transfers. (default: int.MaxValue)
+  /// </param>
   /// <param name="tracking">A flag indicating whether to track changes for the retrieved entities. Defaults to false.</param>
   /// <returns>A `PagedResults<T>` object containing the filtered and optionally sorted entities 
   /// along with pagination information.</returns>
   public PagedResults<T> GetPaged(
-    Expression<Func<T, bool>>[]? predicates = null,
-    Expression<Func<T, object>>? orderBy = null,
-    Func<IQueryable<T>, IQueryable<T>>? include = null,
-    Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
-    int pageNumber = 1,
-    int pageSize = 10,
+      Expression<Func<T, bool>>[]? predicates = null,
+      Expression<Func<T, object>>? orderBy = null,
+      Expression<Func<T, object>>? thenBy = null,
+      Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+      Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
+      int pageNumber = 1,
+      int pageSize = int.MaxValue,
     bool tracking = false);
 
   /// <summary>

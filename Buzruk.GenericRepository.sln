@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzruk.GenericRepository", "Buzruk.GenericRepository\Buzruk.GenericRepository.csproj", "{4A580F6A-B0F0-4FA3-9AEF-1ADBB3AE1B5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzruk.GenericRepository.Tests", "Buzruk.GenericRepository.Tests\Buzruk.GenericRepository.Tests.csproj", "{7A47CCB6-EF73-4420-8561-62DF2AE63199}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4A580F6A-B0F0-4FA3-9AEF-1ADBB3AE1B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A580F6A-B0F0-4FA3-9AEF-1ADBB3AE1B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A580F6A-B0F0-4FA3-9AEF-1ADBB3AE1B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A47CCB6-EF73-4420-8561-62DF2AE63199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A47CCB6-EF73-4420-8561-62DF2AE63199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A47CCB6-EF73-4420-8561-62DF2AE63199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A47CCB6-EF73-4420-8561-62DF2AE63199}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
