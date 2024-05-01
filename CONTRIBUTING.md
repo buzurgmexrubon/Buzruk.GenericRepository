@@ -18,7 +18,7 @@ There are several ways you can contribute to Buzruk.GenericRepository:
 
 ## Coding Style
 
-We recommend following consistent coding style throughout the project. If you're unsure about the preferred style, you can use tools like [linter name for .NET] (replace with the appropriate linter for your project) to automatically format your code.
+We recommend following consistent coding style throughout the project. If you're unsure about the preferred style, you can use tools like editorconfig to format your code.
 
 ## Unit Tests
 
@@ -30,10 +30,10 @@ We use GitHub issues for tracking bugs, features, and pull requests. Feel free t
 
 ## License
 
-This project is licensed under the MIT License. Please see the LICENSE.md file for details.
+This project is licensed under the MIT License. Please see the LICENSE.txt file for details.
 
 ## Additional Resources
 
-Buzruk.GenericRepository Wiki: [Replace with your Wiki URL] (contains detailed documentation)
+[Buzruk.GenericRepository Wiki](https://github.com/buzurgmexrubon/Buzruk.GenericRepository/wiki)
 
 We are grateful for your contributions! Let's work together to make Buzruk.GenericRepository even better.
