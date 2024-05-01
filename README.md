@@ -7,7 +7,12 @@
 
 **Say goodbye to repetitive CRUD boilerplate and hello to a streamlined, asynchronous-first approach to data access in your .NET applications! Buzruk.GenericRepository is your supercharged generic repository, offering a unified interface to work with various entities. Focus on building amazing features while this package handles the data interaction heavy lifting.**
 
-[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<p align="center">
+   <img src="https://img.shields.io/github/license/buzurgmexrubon/Buzruk.GenericRepository"/>
+   <img src="https://img.shields.io/github/stars/buzurgmexrubon/Buzruk.GenericRepository"/>
+   <img src="https://img.shields.io/github/forks/buzurgmexrubon/Buzruk.GenericRepository"/>
+   <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+</p>
 
 ## Table of Contents
 
