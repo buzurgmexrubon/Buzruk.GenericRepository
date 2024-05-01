@@ -48,6 +48,7 @@ This generic repository simplifies data access in .NET applications by offering 
 - **Effortless Integration with Entity Framework Core**: Designed to work seamlessly with Entity Framework Core, allowing you to leverage its powerful features. **No need to reinvent the wheel!**
 
 ### Beyond the Basics
+
 - **Eager Loading (Optional)**: Boost performance by pre-fetching related entities when retrieving primary data (asynchronous option available: `EagerLoadAsync`), minimizing subsequent database calls. **Reduce roundtrips and improve responsiveness.**
 - **Change Tracking (Optional)**: Track entity modifications for efficient saving updates (requires configuration). **Maintain data consistency with minimal effort.**
 
@@ -97,7 +98,7 @@ var products = await repository.GetPagedAsync(pageNumber: 2, pageSize: 10); // R
 
 Explore our comprehensive Wiki for in-depth guidance on usage examples, configuration options, and advanced features:
 
-Link to your GitHub Wiki
+[Link to GitHub Wiki](https://github.com/buzurgmexrubon/Buzruk.GenericRepository/wiki)
 
 ## Contributing
 
@@ -110,21 +111,10 @@ We welcome contributions to improve this repository! Here's how you can contribu
 
 For more detailed guidelines, please refer to our CONTRIBUTING.md file:
 
-Link to CONTRIBUTING.md file: [invalid URL removed][your-repo]/blob/main/CONTRIBUTING.md
+[Link to CONTRIBUTING.md file](https://github.com/buzurgmexrubon/Buzruk.GenericRepository/blob/master/CONTRIBUTING.md)
 
 ## Changelogs
 
 We maintain a detailed changelog of changes made to the package in the CHANGELOG.md file:
 
-[Link to CHANGELOG.md file](https://github.com/buzurgmexrubon)
-
-
-
-
-
-
-
-
-
-
-
+[Link to CHANGELOG.md file](https://github.com/buzurgmexrubon/Buzruk.GenericRepository/blob/master/CHANGELOG.md)

@@ -31,10 +31,15 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="\\Mac\Home\Desktop\new\Buzruk.GenericRepository\Buzruk.GenericRepository\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="\\Mac\Home\Desktop\new\Buzruk.GenericRepository\Buzruk.GenericRepository\.editorconfig" />
   </ItemGroup>
 
 </Project>
