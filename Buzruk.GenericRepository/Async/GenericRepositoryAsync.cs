@@ -67,7 +67,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
       Expression<Func<T, object>>? thenBy = null,
       Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
       Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
-      bool tracking = false)
+      bool tracking = false,
+      CancellationToken cancellationToken = default)
   {
       var service = new ActionsServiceAsync<T>(_dbSet);
       //var query = await service.ApplyFiltersAsync(predicates);
@@ -135,7 +136,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
       Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
       int pageNumber = 1,
       int pageSize = int.MaxValue,
-      bool tracking = false)
+      bool tracking = false,
+      CancellationToken cancellationToken = default)
   {
     var service = new ActionsServiceAsync<T>(_dbSet);
       await service.ApplyFiltersAsync(predicates);
@@ -175,7 +177,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The added entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual async Task<T> AddAsync(T entity, bool saveChanges = true)
+  public virtual async Task<T> AddAsync(T entity, bool 
+                                        saveChanges = true,
+                                        CancellationToken cancellationToken = default)
   {
     if (entity is null)
     {
@@ -199,7 +203,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>An awaitable task.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual async Task AddRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
+  public virtual async Task AddRangeAsync(IEnumerable<T> entities, 
+                                          bool saveChanges = true, 
+                                          CancellationToken cancellationToken = default)
   {
     if (entities is null)
     {
@@ -221,7 +227,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The updated entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual async Task<T> UpdateAsync(T entity, bool saveChanges = true)
+  public virtual async Task<T> UpdateAsync(T entity, 
+                                           bool saveChanges = true, 
+                                           CancellationToken cancellationToken = default)
   {
     if (entity is null)
     {
@@ -244,7 +252,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="entities">The collection of entities with updated values.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
+  public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, 
+                                             bool saveChanges = true, 
+                                             CancellationToken cancellationToken = default)
   {
     if (entities is null)
     {
@@ -266,7 +276,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The removed entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual async Task<T> RemoveAsync(T entity, bool saveChanges = true)
+  public virtual async Task<T> RemoveAsync(T entity, 
+                                           bool saveChanges = true, 
+                                           CancellationToken cancellationToken = default)
   {
     if (entity is null)
     {
@@ -290,7 +302,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The deleted entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided keyPredicate is null.</exception>
-  public virtual async Task<T> RemoveAsync(Expression<Func<T, bool>> keyPredicate, bool saveChanges = true)
+  public virtual async Task<T> RemoveAsync(Expression<Func<T, bool>> keyPredicate, 
+                                           bool saveChanges = true, 
+                                           CancellationToken cancellationToken = default)
   {
     if (keyPredicate is null)
     {
@@ -320,7 +334,9 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="entities">The collection of entities to be removed.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual async Task RemoveRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
+  public virtual async Task RemoveRangeAsync(IEnumerable<T> entities, 
+                                             bool saveChanges = true, 
+                                             CancellationToken cancellationToken = default)
   {
     if (entities is null)
     {
@@ -345,7 +361,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="predicate">A lambda expression that defines the condition for checking entity existence.</param>
   /// <returns>A task that returns true if at least one entity matching the predicate exists, otherwise false.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided predicate expression is null.</exception>
-  public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+  public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, 
+                                              CancellationToken cancellationToken = default)
   {
     if (predicate is null)
     {
@@ -360,7 +377,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// </summary>
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>A task that returns the number of entities matching the predicate (or all entities if no predicate is provided).</returns>
-  public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
+  public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null,
+                                            CancellationToken cancellationToken = default)
   { 
     if (predicate is null)
     {
@@ -378,7 +396,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// </summary>
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>A task that returns the number of entities matching the predicate (or all entities if no predicate is provided) as a long value.</returns>
-  public virtual async Task<long> LongCountAsync(Expression<Func<T, bool>>? predicate = null)
+  public virtual async Task<long> LongCountAsync(Expression<Func<T, bool>>? predicate = null, 
+                                                 CancellationToken cancellationToken = default)
   { 
     if (predicate is null)
     {
@@ -398,7 +417,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <returns>A task that returns the number of entities within each group.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided groupExpression is null.</exception>
   public virtual async Task<int> CountByAsync<TProperty>(Expression<Func<T, TProperty>> groupExpression, 
-                                                         Expression<Func<T, bool>>? predicate = null)
+                                                         Expression<Func<T, bool>>? predicate = null, 
+                                                         CancellationToken cancellationToken = default)
   {
     if (groupExpression is null)
     {
@@ -423,7 +443,8 @@ public abstract class GenericRepositoryAsync<DbContextClass, T>(DbContextClass d
   /// <param name="afterSaveAction">An optional asynchronous delegate that allows executing custom logic after saving changes. (Func&lt;Task&gt;)</param>
   /// <returns>A task that returns the number of entities saved.</returns>
   public virtual async Task<int> SaveChangesAsync(Func<Task>? beforeSaveAction = null, 
-                                                  Func<Task>? afterSaveAction = null)
+                                                  Func<Task>? afterSaveAction = null, 
+                                                  CancellationToken cancellationToken = default)
   {
     if (beforeSaveAction != null)
     {

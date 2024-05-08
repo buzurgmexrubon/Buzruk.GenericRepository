@@ -294,7 +294,8 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The deleted entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided keyPredicate is null.</exception>
-  public virtual T Remove(Expression<Func<T, bool>> keyPredicate, bool saveChanges = true)
+  public virtual T Remove(Expression<Func<T, bool>> keyPredicate, 
+                          bool saveChanges = true)
 {
     if (keyPredicate is null)
     {

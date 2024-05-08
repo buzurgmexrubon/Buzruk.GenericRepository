@@ -18,7 +18,8 @@ internal class ActionsServiceAsync<T>(IQueryable<T> query)
   /// <param name="predicates">An optional array of lambda expressions used for filtering. 
   /// The query will be filtered by applying all provided predicates with logical AND.</param>
   /// <returns>An asynchronous task that returns an IQueryable object of type T representing the filtered query.</returns>
-  public async Task<IQueryable<T>> ApplyFiltersAsync(Expression<Func<T, bool>>[]? predicates)
+  public async Task<IQueryable<T>> ApplyFiltersAsync(Expression<Func<T, bool>>[]? predicates, 
+                                                     CancellationToken cancellationToken = default)
   {
     if (predicates is not null)
     {
@@ -43,7 +44,9 @@ internal class ActionsServiceAsync<T>(IQueryable<T> query)
   /// in ascending order after the primary sort defined by `orderBy`.
   /// </param>
   /// <returns>An IQueryable representing the sorted data source.</returns>
-  public async Task<IQueryable<T>> ApplySortingAsync(Expression<Func<T, object>>? orderBy, Expression<Func<T, object>>? thenBy)
+  public async Task<IQueryable<T>> ApplySortingAsync(Expression<Func<T, object>>? orderBy, 
+                                                     Expression<Func<T, object>>? thenBy, 
+                                                     CancellationToken cancellationToken = default)
   {
     if (orderBy is not null)
     {
@@ -69,7 +72,9 @@ internal class ActionsServiceAsync<T>(IQueryable<T> query)
   /// specified in `includes`. This allows for chained eager loading of nested related entities.
   /// </param>
   /// <returns>An IQueryable representing the data source with included related entities.</returns>
-  public async Task<IQueryable<T>> ApplyIncludesAsync(Func<IQueryable<T>, IQueryable<T>>[]? includes, Func<IQueryable<T>, IQueryable<T>>? thenInclude)
+  public async Task<IQueryable<T>> ApplyIncludesAsync(Func<IQueryable<T>, IQueryable<T>>[]? includes, 
+                                                      Func<IQueryable<T>, IQueryable<T>>? thenInclude, 
+                                                      CancellationToken cancellationToken = default)
   {
     if (includes is not null)
     {

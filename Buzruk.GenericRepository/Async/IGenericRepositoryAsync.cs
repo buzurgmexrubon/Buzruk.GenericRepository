@@ -7,7 +7,7 @@
 /// <typeparam name="T">The type of entity managed by the repository.</typeparam>
 public interface IGenericRepositoryAsync<T> where T : class
 {
-  #region CRUD (Get, GetPaged, AddAsync, AddRangeAsync, UpdateAsync, UpdateRangeAsync, RemoveAsync, RemoveRangeAsync)
+  #region CRUD (GetAsync, GetPagedAsync, AddAsync, AddRangeAsync, UpdateAsync, UpdateRangeAsync, RemoveAsync, RemoveRangeAsync)
 
   /// <summary>
   /// Asynchronously retrieves a filtered, optionally sorted, and eagerly loaded collection of entities of type T.
@@ -48,7 +48,8 @@ public interface IGenericRepositoryAsync<T> where T : class
       Expression<Func<T, object>>? thenBy = null,
       Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
       Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
-      bool tracking = false);
+      bool tracking = false,
+      CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Asynchronously retrieves a filtered, optionally sorted, and eagerly loaded collection of entities of type T in a paged format.
@@ -104,7 +105,8 @@ public interface IGenericRepositoryAsync<T> where T : class
       Func<IQueryable<T>, IQueryable<T>>? thenInclude = null,
       int pageNumber = 1,
       int pageSize = int.MaxValue,
-      bool tracking = false);
+      bool tracking = false,
+      CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Adds an entity of type T to the underlying data store asynchronously.
@@ -113,7 +115,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The added entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public Task<T> AddAsync(T entity, bool saveChanges = true);
+  public Task<T> AddAsync(T entity, 
+                          bool saveChanges = true,
+                          CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Adds a collection of entities of type T to the underlying data store asynchronously.
@@ -122,7 +126,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>An awaitable task.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public Task AddRangeAsync(IEnumerable<T> entities, bool saveChanges = true);
+  public Task AddRangeAsync(IEnumerable<T> entities, 
+                            bool saveChanges = true,
+                            CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Updates an entity of type T in the underlying data store asynchronously.
@@ -131,7 +137,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The updated entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public Task<T> UpdateAsync(T entity, bool saveChanges = true);
+  public Task<T> UpdateAsync(T entity, 
+                             bool saveChanges = true, 
+                             CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Updates a collection of entities of type T in the underlying data store asynchronously.
@@ -139,7 +147,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="entities">The collection of entities with updated values.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public Task UpdateRangeAsync(IEnumerable<T> entities, bool saveChanges = true);
+  public Task UpdateRangeAsync(IEnumerable<T> entities, 
+                               bool saveChanges = true, 
+                               CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Removes an entity of type T from the underlying data store asynchronously.
@@ -148,7 +158,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The removed entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public Task<T> RemoveAsync(T entity, bool saveChanges = true);
+  public Task<T> RemoveAsync(T entity, 
+                             bool saveChanges = true, 
+                             CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Removes an entity of type T from the underlying data store asynchronously based on a separate key expression.
@@ -157,7 +169,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The deleted entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided keyPredicate is null.</exception>
-  public Task<T> RemoveAsync(Expression<Func<T, bool>> keyPredicate, bool saveChanges = true);
+  public Task<T> RemoveAsync(Expression<Func<T, bool>> keyPredicate, 
+                             bool saveChanges = true, 
+                             CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Removes a collection of entities of type T from the underlying data store asynchronously.
@@ -165,7 +179,9 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="entities">The collection of entities to be removed.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public Task RemoveRangeAsync(IEnumerable<T> entities, bool saveChanges = true);
+  public Task RemoveRangeAsync(IEnumerable<T> entities, 
+                               bool saveChanges = true, 
+                               CancellationToken cancellationToken = default);
 
   #endregion
 
@@ -177,14 +193,16 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="predicate">A lambda expression that defines the condition for checking entity existence.</param>
   /// <returns>A task that returns true if at least one entity matching the predicate exists, otherwise false.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided predicate expression is null.</exception>
-  public Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
+  public Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, 
+                                CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Asynchronously counts the number of entities of type T in the underlying data store that optionally match a provided predicate expression.
   /// </summary>
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>A task that returns the number of entities matching the predicate (or all entities if no predicate is provided).</returns>
-  public Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
+  public Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null, 
+                              CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Asynchronously counts the number of entities of type T in the underlying data store that optionally match a provided predicate expression. 
@@ -192,7 +210,8 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// </summary>
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>A task that returns the number of entities matching the predicate (or all entities if no predicate is provided) as a long value.</returns>
-  public Task<long> LongCountAsync(Expression<Func<T, bool>>? predicate = null);
+  public Task<long> LongCountAsync(Expression<Func<T, bool>>? predicate = null, 
+                                   CancellationToken cancellationToken = default);
 
   /// <summary>
   /// (Optional) Asynchronously counts the number of entities of type T in the underlying data store grouped by a specified property. (Overload)
@@ -202,7 +221,8 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <returns>A task that returns the number of entities within each group.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided groupExpression is null.</exception>
   public Task<int> CountByAsync<TProperty>(Expression<Func<T, TProperty>> groupExpression, 
-                                           Expression<Func<T, bool>>? predicate = null);
+                                           Expression<Func<T, bool>>? predicate = null, 
+                                           CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Asynchronously saves all changes made to entities tracked by the context to the underlying database. 
@@ -212,7 +232,8 @@ public interface IGenericRepositoryAsync<T> where T : class
   /// <param name="afterSaveAction">An optional asynchronous delegate that allows executing custom logic after saving changes. (Func&lt;Task&gt;)</param>
   /// <returns>A task that returns the number of entities saved.</returns>
   public Task<int> SaveChangesAsync(Func<Task>? beforeSaveAction = null, 
-                                    Func<Task>? afterSaveAction = null);
+                                    Func<Task>? afterSaveAction = null, 
+                                    CancellationToken cancellationToken = default);
 
   #endregion
 }
