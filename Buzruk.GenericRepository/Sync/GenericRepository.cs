@@ -14,7 +14,7 @@
 /// Inheriting classes should implement specific behaviors or add custom logic 
 /// as needed for their particular entity types.
 /// </remarks>
-public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbContext)
+public class GenericRepository<DbContextClass, T>(DbContextClass dbContext)
   : IGenericRepository<T>
   where DbContextClass : DbContext
   where T : class
@@ -144,9 +144,9 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
     // var query =  service.ApplyFilters(predicates);
     // query = await service.ApplyIncludes(include, thenInclude);
     // query = await service.ApplySorting(orderBy);
-     service.ApplyFilters(predicates);
-     service.ApplyIncludes(includes, thenInclude);
-     var query =service.ApplySorting(orderBy, thenBy);
+    service.ApplyFilters(predicates);
+    service.ApplyIncludes(includes, thenInclude);
+    var query = service.ApplySorting(orderBy, thenBy);
 
     int totalItemsCount = query.Count();
     int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
@@ -180,42 +180,32 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The added entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual T Add(T entity, bool saveChanges = true)
+  public virtual T Add(T entity)
   {
-      if (entity is null)
-      {
-          throw new ArgumentNullException(nameof(entity));
-      }
-  
-      _dbSet.Add(entity);
-  
-      if (saveChanges)
-      {
-          DbContext.SaveChanges();
-      }
-  
-      return entity;
+    if (entity is null)
+    {
+      throw new ArgumentNullException(nameof(entity));
+    }
+
+    _dbSet.Add(entity);
+
+    return entity;
   }
-  
+
   /// <summary>
   /// Adds a collection of entities of type T to the underlying data store synchronously.
   /// </summary>
   /// <param name="entities">The collection of entities to be added.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual void AddRange(IEnumerable<T> entities, bool saveChanges = true)
+  public virtual void AddRange(IEnumerable<T> entities)
   {
-      if (entities is null)
-      {
-          throw new ArgumentNullException(nameof(entities));
-      }
-  
-      _dbSet.AddRange(entities);
-  
-      if (saveChanges)
-      {
-          DbContext.SaveChanges();
-      }
+    if (entities is null)
+    {
+      throw new ArgumentNullException(nameof(entities));
+    }
+
+    _dbSet.AddRange(entities);
   }
 
   /// <summary>
@@ -225,22 +215,17 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The updated entity of type T.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual T Update(T entity, bool saveChanges = true)
-{
+  public virtual T Update(T entity)
+  {
     if (entity is null)
     {
-        throw new ArgumentNullException(nameof(entity));
+      throw new ArgumentNullException(nameof(entity));
     }
 
     _dbSet.Update(entity);
 
-    if (saveChanges)
-    {
-        DbContext.SaveChanges();
-    }
-
     return entity;
-}
+  }
 
   /// <summary>
   /// Updates a collection of entities of type T in the underlying data store synchronously.
@@ -248,20 +233,15 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="entities">The collection of entities with updated values.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual void UpdateRange(IEnumerable<T> entities, bool saveChanges = true)
-{
+  public virtual void UpdateRange(IEnumerable<T> entities)
+  {
     if (entities is null)
     {
-        throw new ArgumentNullException(nameof(entities));
+      throw new ArgumentNullException(nameof(entities));
     }
 
     _dbSet.UpdateRange(entities);
-
-    if (saveChanges)
-    {
-        DbContext.SaveChanges();
-    }
-}
+  }
 
   /// <summary>
   /// Removes an entity of type T from the underlying data store synchronously.
@@ -270,22 +250,17 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The deleted entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity is null.</exception>
-  public virtual T Remove(T entity, bool saveChanges = true)
-{
+  public virtual T Remove(T entity)
+  {
     if (entity is null)
     {
-        throw new ArgumentNullException(nameof(entity));
+      throw new ArgumentNullException(nameof(entity));
     }
 
     _dbSet.Remove(entity);
 
-    if (saveChanges)
-    {
-        DbContext.SaveChanges();
-    }
-
     return entity;
-}
+  }
 
   /// <summary>
   /// Removes an entity of type T from the underlying data store synchronously based on a separate key expression.
@@ -294,30 +269,24 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <returns>The deleted entity of type T (if found), otherwise null.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided keyPredicate is null.</exception>
-  public virtual T Remove(Expression<Func<T, bool>> keyPredicate, 
-                          bool saveChanges = true)
-{
+  public virtual T Remove(Expression<Func<T, bool>> keyPredicate)
+  {
     if (keyPredicate is null)
     {
-        throw new ArgumentNullException(nameof(keyPredicate));
+      throw new ArgumentNullException(nameof(keyPredicate));
     }
 
     var entity = _dbSet.FirstOrDefault(keyPredicate);
 
     if (entity is null)
     {
-        return null; // Entity not found for deletion
+      return null; // Entity not found for deletion
     }
 
     _dbSet.Remove(entity);
 
-    if (saveChanges)
-    {
-        DbContext.SaveChanges();
-    }
-
     return entity;
-}
+  }
 
   /// <summary>
   /// Removes a collection of entities of type T from the underlying data store synchronously.
@@ -325,24 +294,19 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="entities">The collection of entities to be deleted.</param>
   /// <param name="saveChanges">A flag indicating whether to save the changes to the database immediately. Defaults to true.</param>
   /// <exception cref="ArgumentNullException">Thrown if the provided entity collection is null.</exception>
-  public virtual void RemoveRange(IEnumerable<T> entities, bool saveChanges = true)
-{
+  public virtual void RemoveRange(IEnumerable<T> entities)
+  {
     if (entities is null)
     {
-        throw new ArgumentNullException(nameof(entities));
+      throw new ArgumentNullException(nameof(entities));
     }
 
     _dbSet.RemoveRange(entities);
-
-    if (saveChanges)
-    {
-        DbContext.SaveChanges();
-    }
-}
+  }
 
   #endregion
 
-  #region Other Methods (Exists, Count, LongCount, CountBy, SaveChanges)
+  #region Other Methods (Exists, Count, LongCount, CountBy)
 
   /// <summary>
   /// Synchronously checks whether an entity of type T exists in the underlying data store based on a provided predicate expression.
@@ -351,14 +315,14 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <returns>True if at least one entity matching the predicate exists, otherwise false.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided predicate expression is null.</exception>
   public virtual bool Exists(Expression<Func<T, bool>> predicate)
-{
+  {
     if (predicate is null)
     {
-        throw new ArgumentNullException(nameof(predicate));
+      throw new ArgumentNullException(nameof(predicate));
     }
 
     return _dbSet.Any(predicate);
-}
+  }
 
   /// <summary>
   /// Synchronously counts the number of entities of type T in the underlying data store that optionally match a provided predicate expression.
@@ -366,16 +330,16 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>The number of entities matching the predicate (or all entities if no predicate is provided).</returns>
   public virtual int Count(Expression<Func<T, bool>>? predicate = null)
-{
+  {
     if (predicate is null)
     {
-        return _dbSet.Count();
+      return _dbSet.Count();
     }
     else
     {
-        return _dbSet.Count(predicate);
+      return _dbSet.Count(predicate);
     }
-}
+  }
 
   /// <summary>
   /// Synchronously counts the number of entities of type T in the underlying data store that optionally match a provided predicate expression. 
@@ -384,16 +348,16 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="predicate">A lambda expression that defines the condition for counting entities. (Optional)</param>
   /// <returns>The number of entities matching the predicate (or all entities if no predicate is provided) as a long value.</returns>
   public virtual long LongCount(Expression<Func<T, bool>>? predicate = null)
-{
+  {
     if (predicate is null)
     {
-        return _dbSet.LongCount();
+      return _dbSet.LongCount();
     }
     else
     {
-        return _dbSet.LongCount(predicate);
+      return _dbSet.LongCount(predicate);
     }
-}
+  }
 
   /// <summary>
   /// Synchronously counts the number of entities of type T in the underlying data store grouped by a specified property. 
@@ -402,12 +366,12 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
   /// <param name="predicate">A lambda expression that defines the condition for filtering entities before counting. (Optional)</param>
   /// <returns>The number of entities within each group.</returns>
   /// <exception cref="ArgumentNullException">Thrown if the provided groupExpression is null.</exception>
-  public virtual int CountBy<TProperty>(Expression<Func<T, TProperty>> groupExpression, 
+  public virtual int CountBy<TProperty>(Expression<Func<T, TProperty>> groupExpression,
                                                    Expression<Func<T, bool>>? predicate = null)
-{
+  {
     if (groupExpression == null)
     {
-        throw new ArgumentNullException(nameof(groupExpression));
+      throw new ArgumentNullException(nameof(groupExpression));
     }
 
     if (predicate is null)
@@ -418,32 +382,7 @@ public abstract class GenericRepository<DbContextClass,T>(DbContextClass dbConte
     {
       return _dbSet.Where(predicate).GroupBy(groupExpression).Count();
     }
-}
-
-  /// <summary>
-  /// Synchronously saves all changes made to entities tracked by the context to the underlying database. 
-  /// This method offers flexibility for executing custom logic before and after saving changes.
-  /// </summary>
-  /// <param name="beforeSaveAction">An optional synchronous delegate that allows executing custom logic before saving changes. (Action)</param>
-  /// <param name="afterSaveAction">An optional synchronous delegate that allows executing custom logic after saving changes. (Action)</param>
-  /// <returns>The number of entities saved.</returns>
-  public virtual int SaveChanges(Action? beforeSaveAction = null, 
-                                 Action? afterSaveAction = null)
-{
-    if (beforeSaveAction != null)
-    {
-        beforeSaveAction();
-    }
-
-    int changesSaved = DbContext.SaveChanges();
-
-    if (afterSaveAction != null)
-    {
-        afterSaveAction();
-    }
-
-    return changesSaved;
-}
+  }
 
   #endregion
 }
