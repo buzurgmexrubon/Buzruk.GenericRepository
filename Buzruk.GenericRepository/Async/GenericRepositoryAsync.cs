@@ -116,6 +116,27 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
   public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     => await _dbSet.AddRangeAsync(entities);
 
+  public virtual Task Update(T entity) => _dbSet.Update(entity);
+
+  public virtual void UpdateRange(IEnumerable<T> entities) => _dbSet.UpdateRange(entities);
+
+  public virtual void Remove(T entity) => _dbSet.Remove(entity);
+
+  public virtual void Remove(Expression<Func<T, bool>> keyPredicate)
+  {
+    var entity = _dbSet.FirstOrDefault(keyPredicate);
+
+    if (entity is null)
+    {
+      throw new ArgumentNullException(nameof(entity));
+    }
+
+    _dbSet.Remove(entity);
+  }
+
+  public virtual void RemoveRange(IEnumerable<T> entities) => _dbSet.RemoveRange(entities);
+
+
   #endregion
 
   #region Other Methods (ExistsAsync, CountAsync, LongCountAsync, CountByAsync)

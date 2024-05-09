@@ -29,6 +29,16 @@ public interface IGenericRepositoryAsync<T> where T : class
 
   Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
+  void Update(T entity);
+
+  void UpdateRange(IEnumerable<T> entities);
+
+  void Remove(T entity);
+
+  void Remove(Expression<Func<T, bool>> keyPredicate);
+
+  void RemoveRange(IEnumerable<T> entities);
+
   #endregion
 
   #region Other Methods (ExistsAsync, CountAsync, LongCountAsync, CountByAsync)
