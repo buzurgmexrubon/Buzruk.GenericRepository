@@ -7,7 +7,7 @@ public class UnitOfWorkAsync<DbContextClass>(DbContextClass context) :
   protected readonly DbContextClass DbContext = context;
   private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
-  public virtual async Task<IGenericRepositoryAsync<T>> GetRepositoryAsync<T>() where T : class
+  public virtual async Task<IGenericRepositoryAsync<T>> GetRepositoryAsync<T>(CancellationToken cancellationToken = default) where T : class
   {
     if (_repositories.TryGetValue(typeof(T), out object repository))
     {
