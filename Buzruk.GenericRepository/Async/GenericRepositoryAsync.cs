@@ -122,13 +122,37 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
   public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     => await _dbSet.AddRangeAsync(entities);
 
-  public virtual void Update(T entity) => _dbSet.Update(entity);
+  public virtual async Task UpdateAsync(T entity, bool saveChanges = false)
+  {
+    _dbSet.Update(entity);
 
-  public virtual void UpdateRange(IEnumerable<T> entities) => _dbSet.UpdateRange(entities);
+    if (saveChanges)
+    {
+      await AppDbContext.SaveChangesAsync();
+    }
+  }
 
-  public virtual void Remove(T entity) => _dbSet.Remove(entity);
+  public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, bool saveChanges = false)
+  {
+    _dbSet.UpdateRange(entities);
 
-  public virtual void Remove(Expression<Func<T, bool>> keyPredicate)
+    if (saveChanges)
+    {
+      await AppDbContext.SaveChangesAsync();
+    }
+  }
+
+  public virtual async Task RemoveAsync(T entity, bool saveChanges = false)
+  {
+    _dbSet.Remove(entity);
+
+    if (saveChanges)
+    {
+      await AppDbContext.SaveChangesAsync();
+    }
+  }
+
+  public virtual async Task RemoveAsync(Expression<Func<T, bool>> keyPredicate, bool saveChanges = false)
   {
     var entity = _dbSet.FirstOrDefault(keyPredicate);
 
@@ -137,10 +161,23 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
       throw new ArgumentNullException(nameof(entity));
     }
 
+    if (saveChanges)
+    {
+      await AppDbContext.SaveChangesAsync();
+    }
+
     _dbSet.Remove(entity);
   }
 
-  public virtual void RemoveRange(IEnumerable<T> entities) => _dbSet.RemoveRange(entities);
+  public virtual async Task RemoveRangeAsync(IEnumerable<T> entities, bool saveChanges = false)
+  {
+    _dbSet.RemoveRange(entities);
+
+    if (saveChanges)
+    {
+      await AppDbContext.SaveChangesAsync();
+    }
+  }
 
 
   #endregion
