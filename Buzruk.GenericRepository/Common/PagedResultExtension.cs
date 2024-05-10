@@ -17,7 +17,7 @@ public static class PagedResultsExtension
                      .Take(pagedResults.PageSize)
                      .ToList();
 
-  public static async Task<PagedResults<T>> ToPagedResultAsync<T>(IQueryable<T> source, 
+  public static async Task<PagedResults<T>> ToPagedResultAsync<T>(this IQueryable<T> source, 
                                                              int pageNumber,
                                                              int pageSize)
   {
@@ -42,7 +42,7 @@ public static class PagedResultsExtension
     };
   }
 
-  public static PagedResults<T> ToPagedResult<T>(IEnumerable<T> source, 
+  public static PagedResults<T> ToPagedResult<T>(this IEnumerable<T> source, 
                                                              int pageNumber,
                                                              int pageSize)
   {
@@ -67,7 +67,7 @@ public static class PagedResultsExtension
     };
   }
 
-  public static PagedResults<T> ToPagedResult<T>(IQueryable<T> source, 
+  public static PagedResults<T> ToPagedResult<T>(this IQueryable<T> source, 
                                                              int pageNumber,
                                                              int pageSize)
   {
