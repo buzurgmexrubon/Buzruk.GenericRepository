@@ -4,7 +4,7 @@ public class UnitOfWorkAsync<DbContextClass>(DbContextClass context) :
   IUnitOfWorkAsync
   where DbContextClass : DbContext
 {
-  protected readonly DbContextClass DbContext = context;
+  protected readonly DbContextClass AppDbContext = context;
   private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
   public virtual async Task<IGenericRepositoryAsync<T>> GetRepositoryAsync<T>(CancellationToken cancellationToken = default) where T : class
@@ -14,7 +14,7 @@ public class UnitOfWorkAsync<DbContextClass>(DbContextClass context) :
       return (IGenericRepositoryAsync<T>)repository;
     }
 
-    var newRepository = new GenericRepositoryAsync<DbContextClass, T>(DbContext);
+    var newRepository = new GenericRepositoryAsync<DbContextClass, T>(AppDbContext);
     _repositories.Add(typeof(T), newRepository);
     return newRepository;
   }
@@ -28,7 +28,7 @@ public class UnitOfWorkAsync<DbContextClass>(DbContextClass context) :
       await beforeSaveAction();
     }
 
-    int changesSaved = await DbContext.SaveChangesAsync();
+    int changesSaved = await AppDbContext.SaveChangesAsync();
 
     if (afterSaveAction != null)
     {

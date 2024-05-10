@@ -4,7 +4,7 @@ public class UnitOfWork<DbContextClass>(DbContextClass context)
   : IUnitOfWork
   where DbContextClass : DbContext
 {
-  protected readonly DbContextClass DbContext = context;
+  protected readonly DbContextClass AppDbContext = context;
   private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
   public IGenericRepository<T> GetRepository<T>() where T : class
@@ -14,7 +14,7 @@ public class UnitOfWork<DbContextClass>(DbContextClass context)
       return (IGenericRepository<T>)repository;
     }
 
-    var newRepository = new GenericRepository<DbContextClass, T>(DbContext);
+    var newRepository = new GenericRepository<DbContextClass, T>(AppDbContext);
     _repositories.Add(typeof(T), newRepository);
     return newRepository;
   }
@@ -27,7 +27,7 @@ public class UnitOfWork<DbContextClass>(DbContextClass context)
       beforeSaveAction();
     }
 
-    int changesSaved = DbContext.SaveChanges();
+    int changesSaved = AppDbContext.SaveChanges();
 
     if (afterSaveAction != null)
     {

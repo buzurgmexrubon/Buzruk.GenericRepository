@@ -7,7 +7,7 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
 {
   #region Fields
 
-  protected readonly DbContextClass DbContext = dbContext;
+  protected readonly DbContextClass AppDbContext = dbContext;
 
   private readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
@@ -39,9 +39,12 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
   {
     IQueryable<T> query = _dbSet;
 
-    foreach (var predicate in predicates)
+    if (predicates is not null)
     {
-      query.Where(predicate);
+      foreach (var predicate in predicates)
+      {
+        query.Where(predicate);
+      }
     }
 
     if (orderBy is not null)
@@ -71,9 +74,12 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
   {
     IQueryable<T> query = _dbSet;
 
-    foreach (var predicate in predicates)
+    if (predicates is not null)
     {
-      query.Where(predicate);
+      foreach (var predicate in predicates)
+      {
+        query.Where(predicate);
+      }
     }
 
     if (orderBy is not null)
@@ -111,7 +117,7 @@ public class GenericRepositoryAsync<DbContextClass, T>(DbContextClass dbContext)
   }
 
   public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
-    =>  await _dbSet.AddAsync(entity);
+    => await _dbSet.AddAsync(entity);
 
   public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     => await _dbSet.AddRangeAsync(entities);

@@ -10,7 +10,7 @@ public class GenericRepository<DbContextClass, T>(DbContextClass dbContext)
   /// <summary>
   /// The underlying DbContext instance used for accessing the database.
   /// </summary>
-  protected readonly DbContextClass DbContext = dbContext;
+  protected readonly DbContextClass AppDbContext = dbContext;
 
   /// <summary>
   /// The DbSet object representing the collection of entities of type T in the DbContext.
