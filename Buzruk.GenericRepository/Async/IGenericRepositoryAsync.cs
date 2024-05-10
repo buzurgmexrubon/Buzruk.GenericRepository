@@ -29,15 +29,15 @@ public interface IGenericRepositoryAsync<T> where T : class
 
   Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
-  void Update(T entity);
+  Task UpdateAsync(T entity, bool saveChanges = false);
 
-  void UpdateRange(IEnumerable<T> entities);
+  Task UpdateRangeAsync(IEnumerable<T> entities, bool saveChanges = false);
 
-  void Remove(T entity);
+  Task RemoveAsync(T entity, bool saveChanges = false);
 
-  void Remove(Expression<Func<T, bool>> keyPredicate);
+  Task RemoveAsync(Expression<Func<T, bool>> keyPredicate, bool saveChanges = false);
 
-  void RemoveRange(IEnumerable<T> entities);
+  Task RemoveRangeAsync(IEnumerable<T> entities, bool saveChanges = false);
 
   #endregion
 
