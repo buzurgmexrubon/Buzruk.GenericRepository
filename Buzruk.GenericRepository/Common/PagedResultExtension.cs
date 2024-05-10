@@ -17,6 +17,82 @@ public static class PagedResultsExtension
                      .Take(pagedResults.PageSize)
                      .ToList();
 
+  public static async Task<PagedResults<T>> ToPagedResultAsync<T>(IQueryable<T> source, 
+                                                             int pageNumber,
+                                                             int pageSize)
+  {
+    int totalItemsCount = await source.CountAsync();
+    int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+
+    var results = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+    return new PagedResults<T>
+    {
+      Items = results,
+      TotalItemsCount = totalItemsCount,
+      TotalPages = totalPages,
+      PageSize = pageSize,
+      PageNumber = pageNumber,
+      HasPreviousPage = pageNumber > 1,
+      HasNextPage = pageNumber < totalPages,
+      IsFirstPage = pageNumber == 1,
+      IsLastPage = pageNumber == totalPages,
+      FirstItemOnPage = (pageNumber - 1) * pageSize + 1,
+      LastItemOnPage = Math.Min(pageNumber * pageSize, totalItemsCount)
+    };
+  }
+
+  public static PagedResults<T> ToPagedResult<T>(IEnumerable<T> source, 
+                                                             int pageNumber,
+                                                             int pageSize)
+  {
+    int totalItemsCount = source.Count();
+    int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+
+    var results = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+    return new PagedResults<T>
+    {
+      Items = results,
+      TotalItemsCount = totalItemsCount,
+      TotalPages = totalPages,
+      PageSize = pageSize,
+      PageNumber = pageNumber,
+      HasPreviousPage = pageNumber > 1,
+      HasNextPage = pageNumber < totalPages,
+      IsFirstPage = pageNumber == 1,
+      IsLastPage = pageNumber == totalPages,
+      FirstItemOnPage = (pageNumber - 1) * pageSize + 1,
+      LastItemOnPage = Math.Min(pageNumber * pageSize, totalItemsCount)
+    };
+  }
+
+  public static PagedResults<T> ToPagedResult<T>(IQueryable<T> source, 
+                                                             int pageNumber,
+                                                             int pageSize)
+  {
+    int totalItemsCount = source.Count();
+    int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+
+    var results = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+    return new PagedResults<T>
+    {
+      Items = results,
+      TotalItemsCount = totalItemsCount,
+      TotalPages = totalPages,
+      PageSize = pageSize,
+      PageNumber = pageNumber,
+      HasPreviousPage = pageNumber > 1,
+      HasNextPage = pageNumber < totalPages,
+      IsFirstPage = pageNumber == 1,
+      IsLastPage = pageNumber == totalPages,
+      FirstItemOnPage = (pageNumber - 1) * pageSize + 1,
+      LastItemOnPage = Math.Min(pageNumber * pageSize, totalItemsCount)
+    };
+  }
+
+
   /// <summary>
   /// Generates a partial view containing HTML code for page navigation based on the provided `PagedResults<T>` model.
   /// This method leverages Razor syntax (`@` symbol) for building the HTML structure.

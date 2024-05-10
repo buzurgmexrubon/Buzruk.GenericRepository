@@ -16,6 +16,7 @@
     <PackageId>Buzruk.GenericRepository</PackageId>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Version>1.5.0</Version>
 	</PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +41,10 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="\\Mac\Home\Desktop\new\Buzruk.GenericRepository\Buzruk.GenericRepository\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.png" />
   </ItemGroup>
 
 </Project>
