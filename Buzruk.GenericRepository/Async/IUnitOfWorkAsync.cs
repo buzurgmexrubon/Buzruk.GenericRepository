@@ -1,4 +1,4 @@
-﻿namespace Buzruk.GenericRepository.Async;
+﻿namespace Buzruk.GenericRepository;
 
 public interface IUnitOfWorkAsync
 {

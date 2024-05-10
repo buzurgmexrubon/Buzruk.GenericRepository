@@ -1,4 +1,4 @@
-﻿namespace Buzruk.GenericRepository.Sync;
+﻿namespace Buzruk.GenericRepository;
 
 public interface IUnitOfWork
 {
